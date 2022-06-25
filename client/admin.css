@@ -1,0 +1,46 @@
+/*************/
+/* General   */
+/*************/
+body {
+  font-family: sans-serif;
+  background: #1a1a1a;
+  color: #fff;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1,
+input {
+  margin-bottom: 1rem;
+}
+
+input[type="text"] {
+  padding: 0.25rem;
+}
+
+/*************/
+/* Cards     */
+/*************/
+.card-grid {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card {
+  position: relative;
+  width: 32%;
+}
+
+/*=========================*/
+/* Media Queries */
+/*=========================*/
+@media (max-width: 1100px) {
+  /* Cards */
+  .card {
+    width: 48%;
+  }
+}

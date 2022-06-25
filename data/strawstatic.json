@@ -1,0 +1,34 @@
+{
+  "movies": [
+    {
+      "id": "0c3a6860-e9f0-11ec-b320-23492f9fa988",
+      "title": "Titane",
+      "releaseYear": "2021",
+      "image": "https://assets.pstraw.net/images/titane.jpg",
+      "tags": ["french", "horror", "psychological"],
+      "rating": 5,
+      "link": "https://www.imdb.com/title/tt10944760/?ref_=fn_al_tt_1"
+    }
+  ],
+  "music": [
+    {
+      "id": "1ccb9690-e9f0-11ec-a64f-c7dbf95d9c5e",
+      "type": "song",
+      "title": "Funeral",
+      "artist": "Wallice",
+      "tags": ["indie pop", "cute", "fun"],
+      "rating": 4,
+      "link": "https://open.spotify.com/track/2kQKwLHTZttWGANxB8otoe?si=d1208f1d422d4b48"
+    }
+  ],
+  "games": [
+    {
+      "id": "27ffa150-e9f0-11ec-95f0-e3b271085d2e",
+      "title": "Raft",
+      "releaseYear": "2018",
+      "image": "https://assets.pstraw.net/images/raft.png",
+      "tags": ["survival", "multiplayer", "building"],
+      "rating": 5
+    }
+  ]
+}
