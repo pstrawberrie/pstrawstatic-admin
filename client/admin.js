@@ -72,8 +72,6 @@ function createCard(data) {
   });
 
   const editEl = newEl("button");
-  submitEl.setAttribute("type", "submit");
-  submitEl.setAttribute("value", "Update");
 
   const submitEl = newEl("input");
   submitEl.setAttribute("type", "submit");
@@ -90,19 +88,19 @@ document.addEventListener("DOMContentLoaded", function () {
   swagLog();
 
   // test GET
-  getJsonData("/")
+  getJsonData("/?id=01")
     .then((res) => {
       console.log("GET RESPONSE:");
       console.log(res);
 
       // test create card
-      createCard(res.data.movies[0]);
+      // createCard(res.data.movies[0]);
     })
     .catch((err) => console.error(err));
 
   // test POST
-  postJsonData("/", {
-    some: "testdata",
-    and: ["another", "test", "data"],
-  });
+  // postJsonData("/", {
+  //   some: "testdata",
+  //   and: ["another", "test", "data"],
+  // });
 });

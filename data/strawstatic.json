@@ -19,6 +19,24 @@
       "tags": ["indie pop", "cute", "fun"],
       "rating": 4,
       "link": "https://open.spotify.com/track/2kQKwLHTZttWGANxB8otoe?si=d1208f1d422d4b48"
+    },
+    {
+      "id": "01",
+      "type": "song",
+      "title": "Funeral",
+      "artist": "Wallice",
+      "tags": ["indie pop", "cute", "fun"],
+      "rating": 4,
+      "link": "https://open.spotify.com/track/2kQKwLHTZttWGANxB8otoe?si=d1208f1d422d4b48"
+    },
+    {
+      "id": "02",
+      "type": "song",
+      "title": "Funeral",
+      "artist": "Wallice",
+      "tags": ["indie pop", "cute", "fun"],
+      "rating": 4,
+      "link": "https://open.spotify.com/track/2kQKwLHTZttWGANxB8otoe?si=d1208f1d422d4b48"
     }
   ],
   "games": [
