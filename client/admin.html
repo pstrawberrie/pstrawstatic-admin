@@ -12,14 +12,13 @@
       <header><h1>pstrawstatic admin</h1></header>
       <input id="search" type="text" />
       <nav>
-        <button id="movies">Movies</button>
-        <button id="music">Music</button>
-        <button id="games">Games</button>
+        <button class="populate-cards" data-category="movies">Movies</button>
+        <button class="populate-cards" data-category="music">Music</button>
+        <button class="populate-cards" data-category="games">Games</button>
       </nav>
       <section class="results">
-        <div class="results__inner">
-
-        </div>
+        <h2 class="results__title"></h2>
+        <div class="results__inner"></div>
       </section>
     </main>
     <script src="admin.js"></script>

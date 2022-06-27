@@ -1,12 +1,18 @@
-// HOLLA!
+//==========================================
+// Util
+//==========================================
 function swagLog() {
-  console.log("==========================");
-  console.log("*** pstrawstatic ADMIN ***");
-  console.log("==========================");
+  console.log("%c==========================", "color: #ff0");
+  console.log("%c*** pstrawstatic ADMIN ***", "color: #0ff");
+  console.log("%c==========================", "color: #ff0");
+}
+
+function newEl(tag) {
+  return document.createElement(tag);
 }
 
 //==========================================
-// Data Utils
+// API Data Utils
 //==========================================
 // Get JSON Data generic func
 function getJsonData(path) {
@@ -48,37 +54,136 @@ function postJsonData(path, data) {
 }
 
 //==========================================
-// UI
+// Form Data Utils
 //==========================================
-function newEl(tag) {
-  return document.createElement(tag);
+function getFormJson(formEl) {
+  if(formEl && formEl.tagName === 'FORM') {
+    const formData = {id: formEl.dataset.id};
+    const inputEls = formEl.querySelectorAll('input[type="text"]');
+
+    if(inputEls.length < 1) return null;
+    inputEls.forEach(el => {
+      const fieldName = el.dataset.field;
+      const fieldVal = el.value;
+      formData[fieldName] = fieldVal;
+    });
+
+    return formData;
+  }
 }
 
-function createCard(data) {
+//==========================================
+// UI
+//==========================================
+// Create a Card
+function createCard(data, category) {
   if (!data) return;
   const cardEle = newEl("form");
-  cardEle.setAttribute("id", data.id);
+  cardEle.setAttribute("data-id", data.id);
+  cardEle.setAttribute("data-category", category);
   cardEle.classList.add("card");
 
+  // Card (Form)
   const dataArr = Object.keys(data);
   dataArr.map((info) => {
     if (info && info !== "id") {
+      const infoParentEl = newEl('div');
+
+      const infoLabelEl = newEl('label');
+      infoLabelEl.innerText = info;
+      infoParentEl.appendChild(infoLabelEl);
+
       const infoEl = newEl("input");
       infoEl.setAttribute("type", "text");
+      infoEl.setAttribute("data-field", info);
+      infoEl.setAttribute('disabled', '');
       infoEl.classList.add(info);
-      infoEl.innerText = data[info];
-      cardEle.appendChild(infoEl);
+      infoEl.value = data[info];
+      infoParentEl.appendChild(infoEl);
+
+      cardEle.appendChild(infoParentEl);
     }
   });
 
+  // Edit Button + Listener
   const editEl = newEl("button");
-
+  editEl.innerText = 'edit';
+  
+  // Submit Button
   const submitEl = newEl("input");
   submitEl.setAttribute("type", "submit");
-  submitEl.setAttribute("value", "Update");
+  submitEl.setAttribute("value", "update");
   submitEl.style.display = "none";
 
-  console.log(cardEle);
+  // edit event
+  editEl.addEventListener('click', (event) => {
+    const { target } = event;
+    event.preventDefault();
+
+    if(target.parentNode.tagName === 'FORM') {
+      const inputEles = target.parentNode.querySelectorAll('input[type="text"]');
+      [...inputEles].map(el => el.removeAttribute('disabled'));
+      editEl.style.display = 'none';
+      submitEl.style.display = 'block';
+    }
+  });
+
+  // submit event
+  submitEl.addEventListener('click', (event) => {
+    const { target } = event;
+    event.preventDefault();
+
+    if(target.parentNode.tagName === 'FORM') {
+      const inputEles = target.parentNode.querySelectorAll('input[type="text"]');
+      const postPath = `/?id=${target.parentNode.dataset.id}`
+      const formJson = getFormJson(target.parentNode);
+      postJsonData(postPath, formJson);
+      [...inputEles].map(el => el.setAttribute('disabled', ''));
+      submitEl.style.display = 'none';
+      editEl.style.display = 'block';
+    }
+  });
+
+  cardEle.appendChild(editEl);
+  cardEle.appendChild(submitEl);
+
+  return cardEle;
+}
+
+// Populate cards from category
+function populateCards(dataArr, category) {
+  if(!dataArr || dataArr.length < 1 || !category) return console.warn('populateCards failed, incorrect arguments passed');
+  const resultsInner = document.querySelector('.results__inner');
+  resultsInner.innerHTML = '';
+  const resultsTitle = document.querySelector('.results__title');
+  let eleArr = [];
+
+  dataArr.forEach(item => {
+    eleArr.push(createCard(item, category));
+  });
+
+  resultsTitle.innerText = category;
+  eleArr.forEach(el => resultsInner.appendChild(el));
+}
+
+// Card buttons
+function setupButtons() {
+  const cardButtons = document.querySelectorAll('.populate-cards');
+  if(cardButtons.length > 0) {
+    cardButtons.forEach(btn => {
+      btn.addEventListener('click', (event) => {
+        const { target } = event;
+        const category = target.dataset.category;
+        if(category) {
+          getJsonData(`/?category=${category}`)
+          .then((res) => {
+            if(res && res.result) populateCards(res.result, category);
+          })
+          .catch((err) => console.error(err));
+        }
+      });
+    });
+  }
 }
 
 //==========================================
@@ -86,21 +191,8 @@ function createCard(data) {
 //==========================================
 document.addEventListener("DOMContentLoaded", function () {
   swagLog();
+  setupButtons();
 
-  // test GET
-  getJsonData("/?id=01")
-    .then((res) => {
-      console.log("GET RESPONSE:");
-      console.log(res);
-
-      // test create card
-      // createCard(res.data.movies[0]);
-    })
-    .catch((err) => console.error(err));
-
-  // test POST
-  // postJsonData("/", {
-  //   some: "testdata",
-  //   and: ["another", "test", "data"],
-  // });
+  //testing
+  // postJsonData('/?add=true', {some: 'new item test', category: 'movies'});
 });
